@@ -1,0 +1,106 @@
+﻿@model IEnumerable<ProjectShopASP.Models.CartItem>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!--breadcrumbs area start-->
+<div class="breadcrumbs_area">
+    <div class="row">
+        <div class="col-12">
+            <div class="breadcrumb_content">
+                <ul>
+                    <li><a href="Home">home</a></li>
+                    <li><i class="fa fa-angle-right"></i></li>
+                    <li>Shopping Cart</li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!--breadcrumbs area end-->
+<!--shopping cart area start -->
+<div class="shopping_cart_area">
+    <form action="#">
+        <div class="row">
+            @if (Model.Count()>0)
+            {
+                <div class="col-12">
+                    <div class="table_desc">
+                        <div class="cart_page table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th class="product_remove">Delete</th>
+                                        <th class="product_thumb">Image</th>
+                                        <th class="product_name">Product</th>
+                                        <th class="product-price">Price</th>
+                                        <th class="product_quantity">Quantity</th>
+                                        <th class="product_total">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        var totalprice = item.Product.price * item.Quantity;
+                                        <tr>
+                                            <td class="product_remove"><a href="#"><i class="fa fa-trash-o btnDelete"  data-id="@item.Product.id_product"></i></a></td>
+                                            <td class="product_thumb"><a href="#"><img src="@item.Product.image" alt="" width="75" height="100"></a></td>
+                                            <td class="product_name"><a href="/detail/@item.Product.name_product-@item.Product.id_product">@item.Product.name_product</a></td>
+                                            <td class="product-price">@item.Product.price.Value.ToString("N0") VND</td>
+                                            <td class="product_quantity">
+                                                <input min="0" max="100" value="@item.Quantity" type="text" class="txtQuantity" data-id="@item.Product.id_product">
+                                            </td>             
+                                            <td class="product_total">@totalprice.Value.ToString("N0")  VND</td>
+                                        </tr>
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="cart_submit">
+                            <button id="btnUpdate" type="submit">update cart</button>
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <h3 style="margin:auto">Hiện không có sản phẩm nào trong giỏ hàng</h3>
+            }
+
+        </div>
+        <!--coupon code area start-->
+        <div class="coupon_area">
+            <div class="row">
+                <div class="col-lg-6 col-md-6">
+                    <div class="coupon_code">
+                        <h3>Coupon</h3>
+                        <div class="coupon_inner">
+                            <p>Enter your coupon code if you have one.</p>
+                            <input placeholder="Coupon code" type="text">
+                            <button type="submit">Apply coupon</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <div class="coupon_code">
+                        <h3>Cart Totals</h3>
+                        <div class="coupon_inner">
+                            <div class="cart_subtotal">
+                                <p>Total</p>
+                                <p class="cart_amount">@Model.Sum(x=>x.Product.price*x.Quantity).Value.ToString("N0") VND</p>
+                            </div>
+                            <div class="checkout_btn">
+                                <a href="#">Checkout</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--coupon code area end-->
+    </form>
+</div>
+<!--shopping cart area end -->

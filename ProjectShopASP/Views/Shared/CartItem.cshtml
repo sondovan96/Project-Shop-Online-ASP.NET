@@ -1,0 +1,33 @@
+﻿@model IEnumerable<ProjectShopASP.Models.CartItem>
+
+<div class="shopping_cart">
+    <a href="#"><i class="fa fa-shopping-cart"></i> @Model.Count() Items<i class="fa fa-angle-down"></i></a>
+    <!--mini cart-->
+    <div class="mini_cart">
+        @foreach (var item in Model)
+        {
+            <div class="cart_item">
+                <div class="cart_img">
+                    <a href="#"><img src="@item.Product.image" alt=""></a>
+                </div>
+                <div class="cart_info">
+                    <a href="/detail/@item.Product.meta_title-@item.Product.id_product">@item.Product.name_product</a>
+                    <span class="cart_price">@item.Product.price.Value.ToString("N0") VND</span>
+                    <span class="quantity">@item.Quantity</span>
+                </div>
+                <div class="cart_remove">
+                    <a title="Remove this item" href="#"><i class="fa fa-times-circle btnDeleteCartHeader" data-id="@item.Product.id_product"></i></a>
+                </div>
+            </div>
+        }
+
+        <div class="total_price">
+            <span> total </span>
+            <span class="prices">  @Model.Sum(x => x.Product.price*x.Quantity).Value.ToString("N0") VND </span>
+        </div>
+        <div class="cart_button">
+            <a href="/checkout"> Check out</a>
+        </div>
+    </div>
+    <!--mini cart end-->
+</div>

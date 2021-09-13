@@ -1,0 +1,171 @@
+﻿@model ProjectShopASP.Models.PRODUCT
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb breadcrumb-no-gutter">
+        <li class="breadcrumb-item active" aria-current="page"><a href="/Admin/Product/Index">Sản phẩm</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Chỉnh sửa sản phẩm</li>
+    </ol>
+</nav>
+@section header{
+    Chỉnh sửa sản phẩm
+}
+@section jsFooter{
+    <script>
+        $(document).ready(function () {
+            $('#btnAddImage').on('click', function () {
+                var finder = new CKFinder();
+                finder.selectActionFunction = function (url) {
+                    $('#txtImage').val(url);
+                    $('#imageurl').attr('src', url);
+                }
+                finder.popup();
+            });
+        });
+    </script>
+    <script>
+
+    </script>
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#txtDetail'), {
+                image: {
+                    toolbar: ['toggleImageCaption', 'imageTextAlternative']
+                },
+                //toolbar: ['bold', 'italic']
+            })
+            .then(editor => {
+                window.editor = editor;
+            })
+            .catch(error => {
+                console.error(error.stack);
+            });
+    </script>
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#txtDescription'), {
+                image: {
+                    toolbar: ['toggleImageCaption', 'imageTextAlternative']
+                },
+                //toolbar: ['bold', 'italic']
+            })
+            .then(editor => {
+                window.editor = editor;
+            })
+            .catch(error => {
+                console.error(error.stack);
+            });
+    </script>
+}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Nhập thông tin sản phẩm.
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-8">
+                        @using (Html.BeginForm("Edit", "Product", FormMethod.Post))
+                        {
+                            <div class="form-horizontal">
+                                <h4>PRODUCT</h4>
+                                <hr />
+                                @Html.ValidationSummary(true, null, new { @class = "text-danger" })
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.name_product, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-4">
+                                        @Html.EditorFor(model => model.name_product, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.name_product, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.id_cate, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-5">
+                                        @Html.DropDownListFor(model => model.id_cate, new SelectList(ViewBag.listcate, "id_cate", "name_cate"), "--Chọn loại sản phẩm--", htmlAttributes: new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.id_cate, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.description, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.TextAreaFor(model => model.description, new { htmlAttributes = new { @class = "form-control" }, id = "txtDescription" })
+                                        @Html.ValidationMessageFor(model => model.description, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.detail, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.TextAreaFor(model => model.detail, new { htmlAttributes = new { @class = "form-control" }, id = "txtDetail" })
+                                        @Html.ValidationMessageFor(model => model.detail, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.price, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-3">
+                                        @Html.EditorFor(model => model.price, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.price, "", new { @class = "text-danger" })
+                                    </div>
+                                    @Html.LabelFor(model => model.quantity, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-2">
+                                        @Html.EditorFor(model => model.quantity, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.quantity, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.promotion_price, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-5">
+                                        @Html.EditorFor(model => model.promotion_price, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.promotion_price, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.image, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-3">
+                                        @Html.EditorFor(model => model.image, new { htmlAttributes = new { @class = "form-control", id = "txtImage" } })
+                                        <button class="btn btn-default form-control" id="btnAddImage" type="button" style="margin-top:10px">Chọn ảnh</button>
+                                        @Html.ValidationMessageFor(model => model.image, "", new { @class = "text-danger" })
+                                    </div>
+                                    <img id="imageurl" src="@Model.image" width="75" height="100" />
+                                </div>
+
+                                @*<div class="form-group">
+                                        @Html.LabelFor(model => model.top_hot, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.top_hot, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.top_hot, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.more_image, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.more_image, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.more_image, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>*@
+
+
+                                <div class="form-group">
+                                    <div class="col-md-offset-2 col-md-10">
+                                        <input type="submit" value="Edit" class="btn btn-primary" />
+                                        <a class="btn btn-default col-md-1" style="margin-right:10px" href="/Admin/Product/Index">Back</a>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

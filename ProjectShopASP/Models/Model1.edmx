@@ -1,0 +1,438 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ProjectASPModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CART">
+          <Key>
+            <PropertyRef Name="id_cart" />
+          </Key>
+          <Property Name="id_cart" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="255" />
+          <Property Name="phone" Type="varchar" MaxLength="20" />
+          <Property Name="address" Type="nvarchar" MaxLength="500" />
+          <Property Name="email" Type="varchar" MaxLength="255" />
+          <Property Name="total_price" Type="float" />
+          <Property Name="status" Type="nvarchar" MaxLength="255" />
+          <Property Name="created_date" Type="datetime" />
+        </EntityType>
+        <EntityType Name="CART_DETAIL">
+          <Key>
+            <PropertyRef Name="id_cart_detail" />
+          </Key>
+          <Property Name="id_cart_detail" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_cart" Type="int" Nullable="false" />
+          <Property Name="id_product" Type="int" Nullable="false" />
+          <Property Name="quantity" Type="int" />
+          <Property Name="price" Type="float" />
+        </EntityType>
+        <EntityType Name="CATEGORY">
+          <Key>
+            <PropertyRef Name="id_cate" />
+          </Key>
+          <Property Name="id_cate" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name_cate" Type="nvarchar" MaxLength="255" />
+          <Property Name="type_cate" Type="int" />
+          <Property Name="link" Type="nvarchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="EMPLOYEE">
+          <Key>
+            <PropertyRef Name="id_emp" />
+          </Key>
+          <Property Name="id_emp" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name_emp" Type="nvarchar" MaxLength="255" />
+          <Property Name="user_name" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="password" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MENU">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="text" Type="nvarchar" MaxLength="50" />
+          <Property Name="link" Type="nvarchar" MaxLength="250" />
+          <Property Name="display_order" Type="int" />
+          <Property Name="target" Type="nvarchar" MaxLength="50" />
+          <Property Name="status" Type="bit" />
+          <Property Name="id_type" Type="int" />
+        </EntityType>
+        <EntityType Name="MENU_TYPE">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="PRODUCT">
+          <Key>
+            <PropertyRef Name="id_product" />
+          </Key>
+          <Property Name="id_product" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name_product" Type="nvarchar" MaxLength="255" />
+          <Property Name="created_date" Type="datetime" />
+          <Property Name="top_hot" Type="datetime" />
+          <Property Name="id_cate" Type="int" Nullable="false" />
+          <Property Name="price" Type="float" />
+          <Property Name="description" Type="nvarchar" MaxLength="2550" />
+          <Property Name="image" Type="nvarchar" MaxLength="255" />
+          <Property Name="more_image" Type="xml" />
+          <Property Name="quantity" Type="int" Nullable="false" />
+          <Property Name="meta_title" Type="varchar" MaxLength="250" />
+          <Property Name="detail" Type="ntext" />
+          <Property Name="promotion_price" Type="float" />
+        </EntityType>
+        <EntityType Name="SLIDE">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="image" Type="nvarchar" MaxLength="250" />
+          <Property Name="display_order" Type="int" />
+          <Property Name="link" Type="nvarchar" MaxLength="250" />
+          <Property Name="description" Type="nvarchar" MaxLength="250" />
+          <Property Name="status" Type="bit" />
+        </EntityType>
+        <Association Name="FK_ID_CART">
+          <End Role="CART" Type="Self.CART" Multiplicity="1" />
+          <End Role="CART_DETAIL" Type="Self.CART_DETAIL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CART">
+              <PropertyRef Name="id_cart" />
+            </Principal>
+            <Dependent Role="CART_DETAIL">
+              <PropertyRef Name="id_cart" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ID_CATE">
+          <End Role="CATEGORY" Type="Self.CATEGORY" Multiplicity="1" />
+          <End Role="PRODUCT" Type="Self.PRODUCT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CATEGORY">
+              <PropertyRef Name="id_cate" />
+            </Principal>
+            <Dependent Role="PRODUCT">
+              <PropertyRef Name="id_cate" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ID_PRODUCT">
+          <End Role="PRODUCT" Type="Self.PRODUCT" Multiplicity="1" />
+          <End Role="CART_DETAIL" Type="Self.CART_DETAIL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCT">
+              <PropertyRef Name="id_product" />
+            </Principal>
+            <Dependent Role="CART_DETAIL">
+              <PropertyRef Name="id_product" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ProjectASPModelStoreContainer">
+          <EntitySet Name="CART" EntityType="Self.CART" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CART_DETAIL" EntityType="Self.CART_DETAIL" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CATEGORY" EntityType="Self.CATEGORY" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EMPLOYEE" EntityType="Self.EMPLOYEE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MENU" EntityType="Self.MENU" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MENU_TYPE" EntityType="Self.MENU_TYPE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PRODUCT" EntityType="Self.PRODUCT" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SLIDE" EntityType="Self.SLIDE" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_ID_CART" Association="Self.FK_ID_CART">
+            <End Role="CART" EntitySet="CART" />
+            <End Role="CART_DETAIL" EntitySet="CART_DETAIL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ID_CATE" Association="Self.FK_ID_CATE">
+            <End Role="CATEGORY" EntitySet="CATEGORY" />
+            <End Role="PRODUCT" EntitySet="PRODUCT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ID_PRODUCT" Association="Self.FK_ID_PRODUCT">
+            <End Role="PRODUCT" EntitySet="PRODUCT" />
+            <End Role="CART_DETAIL" EntitySet="CART_DETAIL" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ProjectASPModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="CART">
+          <Key>
+            <PropertyRef Name="id_cart" />
+          </Key>
+          <Property Name="id_cart" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="phone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="address" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="email" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="total_price" Type="Double" />
+          <Property Name="status" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="CART_DETAIL" Relationship="Self.FK_ID_CART" FromRole="CART" ToRole="CART_DETAIL" />
+          <Property Name="created_date" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="CART_DETAIL">
+          <Key>
+            <PropertyRef Name="id_cart_detail" />
+          </Key>
+          <Property Name="id_cart_detail" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_cart" Type="Int32" Nullable="false" />
+          <Property Name="id_product" Type="Int32" Nullable="false" />
+          <Property Name="quantity" Type="Int32" />
+          <Property Name="price" Type="Double" />
+          <NavigationProperty Name="CART" Relationship="Self.FK_ID_CART" FromRole="CART_DETAIL" ToRole="CART" />
+          <NavigationProperty Name="PRODUCT" Relationship="Self.FK_ID_PRODUCT" FromRole="CART_DETAIL" ToRole="PRODUCT" />
+        </EntityType>
+        <EntityType Name="CATEGORY">
+          <Key>
+            <PropertyRef Name="id_cate" />
+          </Key>
+          <Property Name="id_cate" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name_cate" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="PRODUCTs" Relationship="Self.FK_ID_CATE" FromRole="CATEGORY" ToRole="PRODUCT" />
+          <Property Name="type_cate" Type="Int32" />
+          <Property Name="link" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="PRODUCT">
+          <Key>
+            <PropertyRef Name="id_product" />
+          </Key>
+          <Property Name="id_product" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name_product" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="id_cate" Type="Int32" Nullable="false" />
+          <Property Name="price" Type="Double" />
+          <Property Name="description" Type="String" MaxLength="2550" FixedLength="false" Unicode="true" />
+          <Property Name="image" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="CART_DETAIL" Relationship="Self.FK_ID_PRODUCT" FromRole="PRODUCT" ToRole="CART_DETAIL" />
+          <NavigationProperty Name="CATEGORY" Relationship="Self.FK_ID_CATE" FromRole="PRODUCT" ToRole="CATEGORY" />
+          <Property Name="created_date" Type="DateTime" Precision="3" />
+          <Property Name="top_hot" Type="DateTime" Precision="3" />
+          <Property Name="more_image" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="quantity" Type="Int32" Nullable="false" />
+          <Property Name="meta_title" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="detail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="promotion_price" Type="Double" />
+        </EntityType>
+        <Association Name="FK_ID_CART">
+          <End Role="CART" Type="Self.CART" Multiplicity="1" />
+          <End Role="CART_DETAIL" Type="Self.CART_DETAIL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CART">
+              <PropertyRef Name="id_cart" />
+            </Principal>
+            <Dependent Role="CART_DETAIL">
+              <PropertyRef Name="id_cart" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ID_PRODUCT">
+          <End Role="PRODUCT" Type="Self.PRODUCT" Multiplicity="1" />
+          <End Role="CART_DETAIL" Type="Self.CART_DETAIL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCT">
+              <PropertyRef Name="id_product" />
+            </Principal>
+            <Dependent Role="CART_DETAIL">
+              <PropertyRef Name="id_product" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ID_CATE">
+          <End Role="CATEGORY" Type="Self.CATEGORY" Multiplicity="1" />
+          <End Role="PRODUCT" Type="Self.PRODUCT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CATEGORY">
+              <PropertyRef Name="id_cate" />
+            </Principal>
+            <Dependent Role="PRODUCT">
+              <PropertyRef Name="id_cate" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ProjectASPEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CARTs" EntityType="Self.CART" />
+          <EntitySet Name="CART_DETAIL" EntityType="Self.CART_DETAIL" />
+          <EntitySet Name="CATEGORies" EntityType="Self.CATEGORY" />
+          <EntitySet Name="PRODUCTs" EntityType="Self.PRODUCT" />
+          <AssociationSet Name="FK_ID_CART" Association="Self.FK_ID_CART">
+            <End Role="CART" EntitySet="CARTs" />
+            <End Role="CART_DETAIL" EntitySet="CART_DETAIL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ID_PRODUCT" Association="Self.FK_ID_PRODUCT">
+            <End Role="PRODUCT" EntitySet="PRODUCTs" />
+            <End Role="CART_DETAIL" EntitySet="CART_DETAIL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ID_CATE" Association="Self.FK_ID_CATE">
+            <End Role="CATEGORY" EntitySet="CATEGORies" />
+            <End Role="PRODUCT" EntitySet="PRODUCTs" />
+          </AssociationSet>
+          <EntitySet Name="MENUs" EntityType="ProjectASPModel.MENU" />
+          <EntitySet Name="MENU_TYPE" EntityType="ProjectASPModel.MENU_TYPE" />
+          <EntitySet Name="SLIDEs" EntityType="ProjectASPModel.SLIDE" />
+          <EntitySet Name="EMPLOYEEs" EntityType="ProjectASPModel.EMPLOYEE" />
+        </EntityContainer>
+        <EntityType Name="MENU">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="text" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="link" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="display_order" Type="Int32" />
+          <Property Name="target" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="status" Type="Boolean" />
+          <Property Name="id_type" Type="Int32" />
+        </EntityType>
+        <EntityType Name="MENU_TYPE">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="SLIDE">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="image" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="display_order" Type="Int32" />
+          <Property Name="link" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="description" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="status" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="EMPLOYEE">
+          <Key>
+            <PropertyRef Name="id_emp" />
+          </Key>
+          <Property Name="id_emp" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name_emp" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="user_name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="password" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ProjectASPModelStoreContainer" CdmEntityContainer="ProjectASPEntities">
+          <EntitySetMapping Name="CARTs">
+            <EntityTypeMapping TypeName="ProjectASPModel.CART">
+              <MappingFragment StoreEntitySet="CART">
+                <ScalarProperty Name="created_date" ColumnName="created_date" />
+                <ScalarProperty Name="id_cart" ColumnName="id_cart" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="total_price" ColumnName="total_price" />
+                <ScalarProperty Name="status" ColumnName="status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CART_DETAIL">
+            <EntityTypeMapping TypeName="ProjectASPModel.CART_DETAIL">
+              <MappingFragment StoreEntitySet="CART_DETAIL">
+                <ScalarProperty Name="id_cart_detail" ColumnName="id_cart_detail" />
+                <ScalarProperty Name="id_cart" ColumnName="id_cart" />
+                <ScalarProperty Name="id_product" ColumnName="id_product" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+                <ScalarProperty Name="price" ColumnName="price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CATEGORies">
+            <EntityTypeMapping TypeName="ProjectASPModel.CATEGORY">
+              <MappingFragment StoreEntitySet="CATEGORY">
+                <ScalarProperty Name="link" ColumnName="link" />
+                <ScalarProperty Name="type_cate" ColumnName="type_cate" />
+                <ScalarProperty Name="id_cate" ColumnName="id_cate" />
+                <ScalarProperty Name="name_cate" ColumnName="name_cate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PRODUCTs">
+            <EntityTypeMapping TypeName="ProjectASPModel.PRODUCT">
+              <MappingFragment StoreEntitySet="PRODUCT">
+                <ScalarProperty Name="promotion_price" ColumnName="promotion_price" />
+                <ScalarProperty Name="detail" ColumnName="detail" />
+                <ScalarProperty Name="meta_title" ColumnName="meta_title" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+                <ScalarProperty Name="more_image" ColumnName="more_image" />
+                <ScalarProperty Name="top_hot" ColumnName="top_hot" />
+                <ScalarProperty Name="created_date" ColumnName="created_date" />
+                <ScalarProperty Name="id_product" ColumnName="id_product" />
+                <ScalarProperty Name="name_product" ColumnName="name_product" />
+                <ScalarProperty Name="id_cate" ColumnName="id_cate" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="image" ColumnName="image" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MENUs">
+            <EntityTypeMapping TypeName="ProjectASPModel.MENU">
+              <MappingFragment StoreEntitySet="MENU">
+                <ScalarProperty Name="id_type" ColumnName="id_type" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="target" ColumnName="target" />
+                <ScalarProperty Name="display_order" ColumnName="display_order" />
+                <ScalarProperty Name="link" ColumnName="link" />
+                <ScalarProperty Name="text" ColumnName="text" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MENU_TYPE">
+            <EntityTypeMapping TypeName="ProjectASPModel.MENU_TYPE">
+              <MappingFragment StoreEntitySet="MENU_TYPE">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SLIDEs">
+            <EntityTypeMapping TypeName="ProjectASPModel.SLIDE">
+              <MappingFragment StoreEntitySet="SLIDE">
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="link" ColumnName="link" />
+                <ScalarProperty Name="display_order" ColumnName="display_order" />
+                <ScalarProperty Name="image" ColumnName="image" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EMPLOYEEs">
+            <EntityTypeMapping TypeName="ProjectASPModel.EMPLOYEE">
+              <MappingFragment StoreEntitySet="EMPLOYEE">
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="user_name" ColumnName="user_name" />
+                <ScalarProperty Name="name_emp" ColumnName="name_emp" />
+                <ScalarProperty Name="id_emp" ColumnName="id_emp" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

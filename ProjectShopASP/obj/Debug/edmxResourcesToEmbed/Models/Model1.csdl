@@ -1,0 +1,156 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ProjectASPModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="CART">
+    <Key>
+      <PropertyRef Name="id_cart" />
+    </Key>
+    <Property Name="id_cart" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="phone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="address" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="email" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="total_price" Type="Double" />
+    <Property Name="status" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="CART_DETAIL" Relationship="Self.FK_ID_CART" FromRole="CART" ToRole="CART_DETAIL" />
+    <Property Name="created_date" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="CART_DETAIL">
+    <Key>
+      <PropertyRef Name="id_cart_detail" />
+    </Key>
+    <Property Name="id_cart_detail" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="id_cart" Type="Int32" Nullable="false" />
+    <Property Name="id_product" Type="Int32" Nullable="false" />
+    <Property Name="quantity" Type="Int32" />
+    <Property Name="price" Type="Double" />
+    <NavigationProperty Name="CART" Relationship="Self.FK_ID_CART" FromRole="CART_DETAIL" ToRole="CART" />
+    <NavigationProperty Name="PRODUCT" Relationship="Self.FK_ID_PRODUCT" FromRole="CART_DETAIL" ToRole="PRODUCT" />
+  </EntityType>
+  <EntityType Name="CATEGORY">
+    <Key>
+      <PropertyRef Name="id_cate" />
+    </Key>
+    <Property Name="id_cate" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name_cate" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="PRODUCTs" Relationship="Self.FK_ID_CATE" FromRole="CATEGORY" ToRole="PRODUCT" />
+    <Property Name="type_cate" Type="Int32" />
+    <Property Name="link" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="PRODUCT">
+    <Key>
+      <PropertyRef Name="id_product" />
+    </Key>
+    <Property Name="id_product" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name_product" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="id_cate" Type="Int32" Nullable="false" />
+    <Property Name="price" Type="Double" />
+    <Property Name="description" Type="String" MaxLength="2550" FixedLength="false" Unicode="true" />
+    <Property Name="image" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="CART_DETAIL" Relationship="Self.FK_ID_PRODUCT" FromRole="PRODUCT" ToRole="CART_DETAIL" />
+    <NavigationProperty Name="CATEGORY" Relationship="Self.FK_ID_CATE" FromRole="PRODUCT" ToRole="CATEGORY" />
+    <Property Name="created_date" Type="DateTime" Precision="3" />
+    <Property Name="top_hot" Type="DateTime" Precision="3" />
+    <Property Name="more_image" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="quantity" Type="Int32" Nullable="false" />
+    <Property Name="meta_title" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="detail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="promotion_price" Type="Double" />
+  </EntityType>
+  <Association Name="FK_ID_CART">
+    <End Role="CART" Type="Self.CART" Multiplicity="1" />
+    <End Role="CART_DETAIL" Type="Self.CART_DETAIL" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CART">
+        <PropertyRef Name="id_cart" />
+      </Principal>
+      <Dependent Role="CART_DETAIL">
+        <PropertyRef Name="id_cart" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ID_PRODUCT">
+    <End Role="PRODUCT" Type="Self.PRODUCT" Multiplicity="1" />
+    <End Role="CART_DETAIL" Type="Self.CART_DETAIL" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PRODUCT">
+        <PropertyRef Name="id_product" />
+      </Principal>
+      <Dependent Role="CART_DETAIL">
+        <PropertyRef Name="id_product" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ID_CATE">
+    <End Role="CATEGORY" Type="Self.CATEGORY" Multiplicity="1" />
+    <End Role="PRODUCT" Type="Self.PRODUCT" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CATEGORY">
+        <PropertyRef Name="id_cate" />
+      </Principal>
+      <Dependent Role="PRODUCT">
+        <PropertyRef Name="id_cate" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ProjectASPEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="CARTs" EntityType="Self.CART" />
+    <EntitySet Name="CART_DETAIL" EntityType="Self.CART_DETAIL" />
+    <EntitySet Name="CATEGORies" EntityType="Self.CATEGORY" />
+    <EntitySet Name="PRODUCTs" EntityType="Self.PRODUCT" />
+    <AssociationSet Name="FK_ID_CART" Association="Self.FK_ID_CART">
+      <End Role="CART" EntitySet="CARTs" />
+      <End Role="CART_DETAIL" EntitySet="CART_DETAIL" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ID_PRODUCT" Association="Self.FK_ID_PRODUCT">
+      <End Role="PRODUCT" EntitySet="PRODUCTs" />
+      <End Role="CART_DETAIL" EntitySet="CART_DETAIL" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ID_CATE" Association="Self.FK_ID_CATE">
+      <End Role="CATEGORY" EntitySet="CATEGORies" />
+      <End Role="PRODUCT" EntitySet="PRODUCTs" />
+    </AssociationSet>
+    <EntitySet Name="MENUs" EntityType="ProjectASPModel.MENU" />
+    <EntitySet Name="MENU_TYPE" EntityType="ProjectASPModel.MENU_TYPE" />
+    <EntitySet Name="SLIDEs" EntityType="ProjectASPModel.SLIDE" />
+    <EntitySet Name="EMPLOYEEs" EntityType="ProjectASPModel.EMPLOYEE" />
+  </EntityContainer>
+  <EntityType Name="MENU">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="text" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="link" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="display_order" Type="Int32" />
+    <Property Name="target" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="status" Type="Boolean" />
+    <Property Name="id_type" Type="Int32" />
+  </EntityType>
+  <EntityType Name="MENU_TYPE">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="SLIDE">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="image" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="display_order" Type="Int32" />
+    <Property Name="link" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="description" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="status" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="EMPLOYEE">
+    <Key>
+      <PropertyRef Name="id_emp" />
+    </Key>
+    <Property Name="id_emp" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name_emp" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="user_name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="password" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+  </EntityType>
+</Schema>

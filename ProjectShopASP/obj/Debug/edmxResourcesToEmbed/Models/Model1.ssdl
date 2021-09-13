@@ -1,0 +1,150 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ProjectASPModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="CART">
+    <Key>
+      <PropertyRef Name="id_cart" />
+    </Key>
+    <Property Name="id_cart" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="255" />
+    <Property Name="phone" Type="varchar" MaxLength="20" />
+    <Property Name="address" Type="nvarchar" MaxLength="500" />
+    <Property Name="email" Type="varchar" MaxLength="255" />
+    <Property Name="total_price" Type="float" />
+    <Property Name="status" Type="nvarchar" MaxLength="255" />
+    <Property Name="created_date" Type="datetime" />
+  </EntityType>
+  <EntityType Name="CART_DETAIL">
+    <Key>
+      <PropertyRef Name="id_cart_detail" />
+    </Key>
+    <Property Name="id_cart_detail" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="id_cart" Type="int" Nullable="false" />
+    <Property Name="id_product" Type="int" Nullable="false" />
+    <Property Name="quantity" Type="int" />
+    <Property Name="price" Type="float" />
+  </EntityType>
+  <EntityType Name="CATEGORY">
+    <Key>
+      <PropertyRef Name="id_cate" />
+    </Key>
+    <Property Name="id_cate" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name_cate" Type="nvarchar" MaxLength="255" />
+    <Property Name="type_cate" Type="int" />
+    <Property Name="link" Type="nvarchar" MaxLength="250" />
+  </EntityType>
+  <EntityType Name="EMPLOYEE">
+    <Key>
+      <PropertyRef Name="id_emp" />
+    </Key>
+    <Property Name="id_emp" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name_emp" Type="nvarchar" MaxLength="255" />
+    <Property Name="user_name" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="password" Type="varchar" MaxLength="255" Nullable="false" />
+  </EntityType>
+  <EntityType Name="MENU">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="text" Type="nvarchar" MaxLength="50" />
+    <Property Name="link" Type="nvarchar" MaxLength="250" />
+    <Property Name="display_order" Type="int" />
+    <Property Name="target" Type="nvarchar" MaxLength="50" />
+    <Property Name="status" Type="bit" />
+    <Property Name="id_type" Type="int" />
+  </EntityType>
+  <EntityType Name="MENU_TYPE">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="PRODUCT">
+    <Key>
+      <PropertyRef Name="id_product" />
+    </Key>
+    <Property Name="id_product" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name_product" Type="nvarchar" MaxLength="255" />
+    <Property Name="created_date" Type="datetime" />
+    <Property Name="top_hot" Type="datetime" />
+    <Property Name="id_cate" Type="int" Nullable="false" />
+    <Property Name="price" Type="float" />
+    <Property Name="description" Type="nvarchar" MaxLength="2550" />
+    <Property Name="image" Type="nvarchar" MaxLength="255" />
+    <Property Name="more_image" Type="xml" />
+    <Property Name="quantity" Type="int" Nullable="false" />
+    <Property Name="meta_title" Type="varchar" MaxLength="250" />
+    <Property Name="detail" Type="ntext" />
+    <Property Name="promotion_price" Type="float" />
+  </EntityType>
+  <EntityType Name="SLIDE">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="image" Type="nvarchar" MaxLength="250" />
+    <Property Name="display_order" Type="int" />
+    <Property Name="link" Type="nvarchar" MaxLength="250" />
+    <Property Name="description" Type="nvarchar" MaxLength="250" />
+    <Property Name="status" Type="bit" />
+  </EntityType>
+  <Association Name="FK_ID_CART">
+    <End Role="CART" Type="Self.CART" Multiplicity="1" />
+    <End Role="CART_DETAIL" Type="Self.CART_DETAIL" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CART">
+        <PropertyRef Name="id_cart" />
+      </Principal>
+      <Dependent Role="CART_DETAIL">
+        <PropertyRef Name="id_cart" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ID_CATE">
+    <End Role="CATEGORY" Type="Self.CATEGORY" Multiplicity="1" />
+    <End Role="PRODUCT" Type="Self.PRODUCT" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CATEGORY">
+        <PropertyRef Name="id_cate" />
+      </Principal>
+      <Dependent Role="PRODUCT">
+        <PropertyRef Name="id_cate" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ID_PRODUCT">
+    <End Role="PRODUCT" Type="Self.PRODUCT" Multiplicity="1" />
+    <End Role="CART_DETAIL" Type="Self.CART_DETAIL" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PRODUCT">
+        <PropertyRef Name="id_product" />
+      </Principal>
+      <Dependent Role="CART_DETAIL">
+        <PropertyRef Name="id_product" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ProjectASPModelStoreContainer">
+    <EntitySet Name="CART" EntityType="Self.CART" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CART_DETAIL" EntityType="Self.CART_DETAIL" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CATEGORY" EntityType="Self.CATEGORY" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="EMPLOYEE" EntityType="Self.EMPLOYEE" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="MENU" EntityType="Self.MENU" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="MENU_TYPE" EntityType="Self.MENU_TYPE" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PRODUCT" EntityType="Self.PRODUCT" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SLIDE" EntityType="Self.SLIDE" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_ID_CART" Association="Self.FK_ID_CART">
+      <End Role="CART" EntitySet="CART" />
+      <End Role="CART_DETAIL" EntitySet="CART_DETAIL" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ID_CATE" Association="Self.FK_ID_CATE">
+      <End Role="CATEGORY" EntitySet="CATEGORY" />
+      <End Role="PRODUCT" EntitySet="PRODUCT" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ID_PRODUCT" Association="Self.FK_ID_PRODUCT">
+      <End Role="PRODUCT" EntitySet="PRODUCT" />
+      <End Role="CART_DETAIL" EntitySet="CART_DETAIL" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

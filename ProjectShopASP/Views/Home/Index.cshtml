@@ -1,0 +1,285 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var slide = (List<ProjectShopASP.Models.SLIDE>)ViewBag.Slide;
+    var newProduct = (List<ProjectShopASP.Models.PRODUCT>)ViewBag.NewProduct;
+    var featureProduct = (List<ProjectShopASP.Models.PRODUCT>)ViewBag.FeatureProduct;
+}
+
+<div class="pos_home_section">
+    <div class="row">
+        <!--banner slider start-->
+        <div class="col-12">
+            <div class="banner_slider slider_two">
+                <div class="slider_active owl-carousel">
+                    @{ foreach (var item in slide)
+                        {
+                            <div class="single_slider" style="background-image: url(@item.image)">
+                                <div class="slider_content">
+                                    <div class="slider_content_inner">
+                                        <h1>@item.description</h1>
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. <br> Cumque eligendi quia, ratione porro, nemo non.</p>
+                                        <a href="@item.link">shop now</a>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+            <!--banner slider start-->
+        </div>
+    </div>
+    <!--new product area start-->
+    <div class="new_product_area product_two">
+        <div class="row">
+            <div class="col-12">
+                <div class="block_title">
+                    <h3>  New Products</h3>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="single_p_active owl-carousel">
+                @foreach (var item in newProduct)
+                {
+                    var url = "/detail/" + item.meta_title + "-" + item.id_product;
+                    <div class="col-lg-3">
+                        <div class="single_product">
+                            <div class="product_thumb">
+                                <a href="@url"><img src="@item.image" alt="@item.name_product"></a>
+                                <div class="img_icone">
+                                    <img src="\Assets\client\img\cart\span-new.png" alt="">
+                                </div>
+                                <div class="product_action">
+                                    <a href="/addcart?productID=@item.id_product&quantity=1"> <i class="fa fa-shopping-cart"></i> Add to cart</a>
+                                </div>
+                            </div>
+                            <div class="product_content">
+                                <span class="product_price">@(item.price.HasValue ? item.price.Value.ToString("N0")+" VND" : "Liên hệ")</span>
+                                <h3 class="product_title" style="margin-bottom:15px"><a href="@url">@item.name_product</a></h3>
+                            </div>
+                            <div class="product_info">
+                                <ul>
+                                    <li><a href="#" title=" Add to Wishlist ">Add to Wishlist</a></li>
+                                    <li><a href="#" data-toggle="modal" data-target="#modal_box" title="Quick view">View Detail</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                }
+            </div>
+        </div>
+    </div>
+    <!--new product area start-->
+    <!--banner area start-->
+    <div class="banner_area banner_two">
+        <div class="row">
+            <div class="col-lg-4 col-md-6">
+                <div class="single_banner">
+                    <a href="#"><img src="\Assets\client\img\banner\banner7.jpg" alt=""></a>
+                    <div class="banner_title">
+                        <p>Up to <span> 40%</span> off</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="single_banner">
+                    <a href="#"><img src="\Assets\client\img\banner\banner8.jpg" alt=""></a>
+                    <div class="banner_title title_2">
+                        <p>sale off <span> 30%</span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="single_banner">
+                    <a href="#"><img src="\Assets\client\img\banner\banner11.jpg" alt=""></a>
+                    <div class="banner_title title_3">
+                        <p>sale off <span> 30%</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--banner area end-->
+    <!--featured product area start-->
+    <div class="new_product_area product_two">
+        <div class="row">
+            <div class="col-12">
+                <div class="block_title">
+                    <h3>   Featured Products</h3>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="single_p_active owl-carousel">
+                @foreach (var item in featureProduct)
+                {
+                    var url = "/detail/" + item.meta_title + "-" + item.id_product;
+                    <div class="col-lg-3">
+                        <div class="single_product">
+                            <div class="product_thumb">
+                                <a href="@url"><img src="@item.image" alt="@item.name_product"></a>
+                                <div class="img_icone">
+                                    <img src="\Assets\client\img\cart\span-new.png" alt="">
+                                </div>
+                                <div class="product_action">
+                                    <a href="/addcart?productID=@item.id_product&quantity=1"> <i class="fa fa-shopping-cart"></i> Add to cart</a>
+                                </div>
+                            </div>
+                            <div class="product_content">
+                                <span class="product_price">@(item.price.HasValue ? item.price.Value.ToString("N0") + " VND" : "Liên hệ")</span>
+                                <h3 class="product_title"><a href="@url">@item.name_product</a></h3>
+                            </div>
+                            <div class="product_info">
+                                <ul>
+                                    <li><a href="#" title=" Add to Wishlist ">Add to Wishlist</a></li>
+                                    <li><a href="#" data-toggle="modal" data-target="#modal_box" title="Quick view">View Detail</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <!--featured product area end-->
+    <!--blog area start-->
+    <div class="blog_area blog_two">
+        <div class="row">
+            <div class="col-lg-4 col-md-6">
+                <div class="single_blog">
+                    <div class="blog_thumb">
+                        <a href="blog-details.html"><img src="\Assets\client\img\blog\blog3.jpg" alt=""></a>
+                    </div>
+                    <div class="blog_content">
+                        <div class="blog_post">
+                            <ul>
+                                <li>
+                                    <a href="#">Tech</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <h3><a href="blog-details.html">When an unknown took a galley of type.</a></h3>
+                        <p>Distinctively simplify dynamic resources whereas prospective core competencies. Objectively pursue multidisciplinary human capital for interoperable.</p>
+                        <div class="post_footer">
+                            <div class="post_meta">
+                                <ul>
+                                    <li>Jun 20, 2018</li>
+                                    <li>3 Comments</li>
+                                </ul>
+                            </div>
+                            <div class="Read_more">
+                                <a href="blog-details.html">Read more  <i class="fa fa-angle-double-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="single_blog">
+                    <div class="blog_thumb">
+                        <a href="blog-details.html"><img src="\Assets\client\img\blog\blog4.jpg" alt=""></a>
+                    </div>
+                    <div class="blog_content">
+                        <div class="blog_post">
+                            <ul>
+                                <li>
+                                    <a href="#">Men</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <h3><a href="blog-details.html">When an unknown took a galley of type.</a></h3>
+                        <p>Distinctively simplify dynamic resources whereas prospective core competencies. Objectively pursue multidisciplinary human capital for interoperable.</p>
+                        <div class="post_footer">
+                            <div class="post_meta">
+                                <ul>
+                                    <li>Jun 20, 2018</li>
+                                    <li>3 Comments</li>
+                                </ul>
+                            </div>
+                            <div class="Read_more">
+                                <a href="blog-details.html">Read more  <i class="fa fa-angle-double-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="single_blog">
+                    <div class="blog_thumb">
+                        <a href="blog-details.html"><img src="\Assets\client\img\blog\blog1.jpg" alt=""></a>
+                    </div>
+                    <div class="blog_content">
+                        <div class="blog_post">
+                            <ul>
+                                <li>
+                                    <a href="#">Women</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <h3><a href="blog-details.html">When an unknown took a galley of type.</a></h3>
+                        <p>Distinctively simplify dynamic resources whereas prospective core competencies. Objectively pursue multidisciplinary human capital for interoperable.</p>
+                        <div class="post_footer">
+                            <div class="post_meta">
+                                <ul>
+                                    <li>Jun 20, 2018</li>
+                                    <li>3 Comments</li>
+                                </ul>
+                            </div>
+                            <div class="Read_more">
+                                <a href="blog-details.html">Read more  <i class="fa fa-angle-double-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!--blog area end-->
+    <!--brand logo strat-->
+    <div class="brand_logo brand_two">
+        <div class="block_title">
+            <h3>Brands</h3>
+        </div>
+        <div class="row">
+            <div class="brand_active owl-carousel">
+                <div class="col-lg-2">
+                    <div class="single_brand">
+                        <a href="#"><img src="\Assets\client\img\brand\brand1.jpg" alt=""></a>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <div class="single_brand">
+                        <a href="#"><img src="\Assets\client\img\brand\brand2.jpg" alt=""></a>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <div class="single_brand">
+                        <a href="#"><img src="\Assets\client\img\brand\brand3.jpg" alt=""></a>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <div class="single_brand">
+                        <a href="#"><img src="\Assets\client\img\brand\brand4.jpg" alt=""></a>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <div class="single_brand">
+                        <a href="#"><img src="\Assets\client\img\brand\brand5.jpg" alt=""></a>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <div class="single_brand">
+                        <a href="#"><img src="\Assets\client\img\brand\brand6.jpg" alt=""></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--brand logo end-->
+</div>
+

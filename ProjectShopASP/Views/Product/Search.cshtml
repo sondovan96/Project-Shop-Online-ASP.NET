@@ -1,0 +1,224 @@
+﻿@model IEnumerable<ProjectShopASP.Models.PRODUCT>
+@{
+    ViewBag.Title = "Kết quả tìm kiếm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!--breadcrumbs area start-->
+<div class="breadcrumbs_area">
+    <div class="row">
+        <div class="col-12">
+            <div class="breadcrumb_content">
+                <ul>
+                    <li><a href="/Home">home</a></li>
+                    <li><i class="fa fa-angle-right"></i></li>
+                    <li>Search</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!--breadcrumbs area end-->
+<!--pos home section-->
+<div class="header" style="margin:10px 0 0 10px">
+    <h3>Kết quả tìm kiếm theo từ khoá:@ViewBag.Keyword</h3>
+</div>
+
+<div class=" pos_home_section shop_section shop_fullwidth">
+    <div class="row">
+        <div class="col-12">
+            <!--shop toolbar start-->
+            <div class="shop_toolbar mb-35">
+                <div class="list_button">
+                    <ul class="nav" role="tablist">
+                        <li>
+                            <a class="active" data-toggle="tab" href="#large" role="tab" aria-controls="large" aria-selected="true"><i class="fa fa-th-large"></i></a>
+                        </li>
+                        <li>
+                            <a data-toggle="tab" href="#list" role="tab" aria-controls="list" aria-selected="false"><i class="fa fa-th-list"></i></a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="page_amount">
+                    <p>Showing 1–9 of 21 results</p>
+                </div>
+                <div class="select_option">
+                    <form action="#">
+                        <label>Sort By</label>
+                        <select name="orderby" id="short">
+                            <option selected="" value="1">Position</option>
+                            <option value="1">Price: Lowest</option>
+                            <option value="1">Price: Highest</option>
+                            <option value="1">Product Name:Z</option>
+                            <option value="1">Sort by price:low</option>
+                            <option value="1">Product Name: Z</option>
+                            <option value="1">In stock</option>
+                            <option value="1">Product Name: A</option>
+                            <option value="1">In stock</option>
+                        </select>
+                    </form>
+                </div>
+            </div>
+            <!--shop toolbar end-->
+        </div>
+    </div>
+
+    <!--shop tab product-->
+    <div class="shop_tab_product shop_fullwidth">
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="large" role="tabpanel">
+                <div class="row">
+                    @foreach (var item in Model)
+                    {
+                        var url = "/detail/" + item.meta_title + "-" + item.id_product;
+                        <div class="col-lg-3 col-md-4 col-sm-6">
+                            <div class="single_product">
+                                <div class="product_thumb">
+                                    <a href="@url"><img src="@item.image" alt=""></a>
+                                    <div class="img_icone">
+                                        <img src="assets\img\cart\span-new.png" alt="">
+                                    </div>
+                                    <div class="product_action">
+                                        <a href="/addcart?productID=@item.id_product&quantity=1"> <i class="fa fa-shopping-cart"></i> Add to cart</a>
+                                    </div>
+                                </div>
+                                <div class="product_content">
+                                    <span class="product_price">@(item.price.HasValue ? item.price.Value.ToString("N0")+" VND" : "Liên hệ")</span>
+                                    <h3 class="product_title"><a href="@url">@item.name_product</a></h3>
+                                </div>
+                                <div class="product_info">
+                                    <ul>
+                                        <li><a href="#" title=" Add to Wishlist ">Add to Wishlist</a></li>
+                                        <li><a href="#" data-toggle="modal" data-target="#modal_box" title="Quick view">View Detail</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+
+                </div>
+            </div>
+            <div class="tab-pane fade" id="list" role="tabpanel">
+                @foreach (var item in Model)
+                {
+                    var url = "/detail/" + item.meta_title + "-" + item.id_product;
+                    <div class="product_list_item mb-35">
+                        <div class="row align-items-center">
+                            <div class="col-lg-3 col-md-5 col-sm-6">
+                                <div class="product_thumb">
+                                    <a href="@url"><img src="@item.image" alt=""></a>
+                                    <div class="hot_img">
+                                        <img src="assets\img\cart\span-hot.png" alt="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-9 col-md-7 col-sm-6">
+                                <div class="list_product_content">
+                                    <div class="product_ratting">
+                                        <ul>
+                                            <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                            <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                            <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                            <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                            <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="list_title">
+                                        <h3><a href="@url">@item.name_product</a></h3>
+                                    </div>
+                                    <p class="design">@Html.Raw(@item.description)</p>
+
+                                    <div class="content_price">
+                                        @if (item.promotion_price != null || item.promotion_price > 0)
+                                        {
+                                            <span>@(item.promotion_price.HasValue ? item.promotion_price.Value.ToString("N0")+" VND" : "Liên hệ")</span>
+                                            <span class="old-price">@(item.price.HasValue ? item.price.Value.ToString("N0")+" VND" : "Liên hệ")</span>
+                                        }
+                                        else
+                                        {
+                                            <span>@(item.price.HasValue ? item.price.Value.ToString("N0")+" VND" : "Liên hệ")</span>
+                                        }
+
+                                    </div>
+                                    <div class="add_links">
+                                        <ul>
+                                            <li><a href="/addcart?productID=@item.id_product&quantity=1" title="add to cart"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a></li>
+                                            <li><a href="#" title="add to wishlist"><i class="fa fa-heart" aria-hidden="true"></i></a></li>
+
+                                            <li><a href="#" data-toggle="modal" data-target="#modal_box" title="Quick view"><i class="fa fa-eye" aria-hidden="true"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+        </div>
+    </div>
+    <!--shop tab product end-->
+    <!--pagination style start-->
+    <div class="pagination_style shop_page">
+        <div class="item_page">
+
+            <form action="Category">
+                <label for="page_select">show</label>
+                <select id="page_select" runat="Server">
+                    <option selected value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                </select>
+                <span>Products by page</span>
+            </form>
+        </div>
+        <div class="page_number">
+            <span>Pages: </span>
+            <ul>
+                @if (ViewBag.TotalPage > 1)
+                            {
+                                var pageDisplay = (int)ViewBag.MaxPage;
+                                int totalPage = (int)ViewBag.TotalPage;
+                                int currentPage = ((int)ViewBag.Page);
+
+                                // Create numeric links
+                                var startPageIndex = Math.Max(1, currentPage - pageDisplay / 2);
+                                var endPageIndex = Math.Min(totalPage, currentPage + pageDisplay / 2);
+
+                                var link = "/search?keyword" + ViewBag.Keyword;
+                                if (currentPage > ViewBag.First)
+                                {
+                        <li><a href="@link&page=@ViewBag.First" title="Trang đầu" class="first"><i class="fa fa-angle-double-left"></i></a></li>
+                        <li>
+                            <a href="@link&page=@ViewBag.Prev" title="Trang trước" class="prev"><i class="fa fa-angle-left"></i></a>
+                        </li>
+                    }
+                    for (int i = startPageIndex; i <= endPageIndex; i++)
+                    {
+                        if (currentPage == i)
+                        {
+
+                            <li><a href="@link&page=@i" class="active" style=" color: #e84c3d" title="Trang @i">@i</a></li>
+                        }
+                        else
+                {
+                            <li><a href="@link&page=@i" title="Trang @i">@i</a></li>
+                        }
+                    }
+                    if (currentPage < totalPage)
+                {
+                        <li><a href="@link&page=@ViewBag.Next" class="next" title="Trang sau"><i class="fa fa-angle-right"></i></a></li>
+                        <li> <a href="@link&page=@ViewBag.Last" class="last" title="Trang cuối"><i class="fa fa-angle-double-right"></i></a></li>
+                    }
+                }
+                else
+                {
+                    <span>Không có bản ghi nào</span>
+                }
+            </ul>
+        </div>
+    </div>
+    <!--Phân trang-->
+    <!--pagination style end-->
+</div>
